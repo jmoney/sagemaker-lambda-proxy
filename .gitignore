@@ -36,3 +36,5 @@ terraform.rc
 bin/
 .terraform/
 .terraform.lock.hcl
+*.out
+*.zip

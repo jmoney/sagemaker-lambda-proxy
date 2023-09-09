@@ -21,5 +21,11 @@ AWS_PROFILE=<profile> terraform apply plan.out
 ## Destroy
 
 ```bash
-AWS_PROFILE=<profile> terraform destroy -plan=plan.out
+AWS_PROFILE=<profile> terraform destroy
+```
+
+## Testing
+
+```bash
+curl --silent --method POST --header "NONCE: $(terraform output -json | jq -r .nonce.value)" --data @data.json "$(terraform output -json | jq -r .url.value)"
 ```
