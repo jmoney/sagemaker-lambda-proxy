@@ -1,0 +1,108 @@
+project_name: sagemaker-lambda-proxy
+
+builds:
+  -
+    id: sagemaker-lambda-proxy
+    main: ./cmd/lambda/proxy/main.go
+
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+    goarch:
+      - amd64
+      - arm64
+
+archives:
+  - replacements:
+      linux: linux
+      amd64: x86_64
+
+checksum:
+  name_template: 'checksums.txt'
+
+snapshot:
+  name_template: "{{ incpatch .Version }}-next"
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
+dockers:
+  # You can have multiple Docker images.
+  -
+    # ID of the image, needed if you want to filter by it later on (e.g. on custom publishers).
+    id: sagemaker-lambda-proxy
+
+    # GOOS of the built binaries/packages that should be used.
+    goos: linux
+
+    # GOARCH of the built binaries/packages that should be used.
+    goarch: amd64
+
+    # GOAMD64 of the built binaries/packages that should be used.
+    goamd64: 'v1'
+
+    # IDs to filter the binaries/packages.
+    ids:
+      - sagemaker-lambda-proxy
+
+    # Templates of the Docker image names.
+    image_templates:
+      - "ghcr.io/jmoney/sagemaker-lambda-proxy:latest"
+      - "ghcr.io/jmoney/sagemaker-lambda-proxy:{{ .Tag }}"
+      - "ghcr.io/jmoney/sagemaker-lambda-proxy:v{{ .Major }}"
+
+   build_flag_templates:
+      - "--pull"
+      - "--label=org.opencontainers.image.created={{.Date}}"
+      - "--label=org.opencontainers.image.title={{.ProjectName}}"
+      - "--label=org.opencontainers.image.revision={{.FullCommit}}"
+      - "--label=org.opencontainers.image.version={{.Version}}"
+
+    extra_files:
+      - LICENSE
+
+    dockerfile: 'Dockerfile'
+
+    use: docker
+
+  # You can have multiple Docker images.
+  -
+    # ID of the image, needed if you want to filter by it later on (e.g. on custom publishers).
+    id: sagemaker-lambda-proxy
+
+    # GOOS of the built binaries/packages that should be used.
+    goos: linux
+
+    # GOARCH of the built binaries/packages that should be used.
+    goarch: arm64
+
+    # GOAMD64 of the built binaries/packages that should be used.
+    goarm: '6'
+
+    # IDs to filter the binaries/packages.
+    ids:
+      - sagemaker-lambda-proxy
+
+    # Templates of the Docker image names.
+    image_templates:
+      - "ghcr.io/jmoney/sagemaker-lambda-proxy:latest"
+      - "ghcr.io/jmoney/sagemaker-lambda-proxy:{{ .Tag }}"
+      - "ghcr.io/jmoney/sagemaker-lambda-proxy:v{{ .Major }}"
+
+   build_flag_templates:
+      - "--pull"
+      - "--label=org.opencontainers.image.created={{.Date}}"
+      - "--label=org.opencontainers.image.title={{.ProjectName}}"
+      - "--label=org.opencontainers.image.revision={{.FullCommit}}"
+      - "--label=org.opencontainers.image.version={{.Version}}"
+
+    extra_files:
+      - LICENSE
+
+    dockerfile: 'Dockerfile'
+
+    use: docker
