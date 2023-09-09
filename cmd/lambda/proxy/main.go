@@ -21,7 +21,7 @@ func main() {
 	lambda.Start(handler)
 }
 func handler(_ context.Context, event events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	if strings.Compare(event.Headers["nonce"], Nonce) != 0 {
+	if Nonce != "" && strings.Compare(event.Headers["nonce"], Nonce) != 0 {
 		return events.APIGatewayProxyResponse{
 			StatusCode: 403,
 			Body:       "FORBIDDEN",
