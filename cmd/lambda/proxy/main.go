@@ -15,36 +15,47 @@ import (
 var (
 	EndpointName = os.Getenv("ENDPOINT_NAME")
 	Nonce        = os.Getenv("NONCE")
+	Sagemaker    = sagemakerruntime.New(session.Must(session.NewSession()))
 )
 
-func main() {
-	lambda.Start(handler)
-}
-func handler(_ context.Context, event events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	if Nonce != "" && strings.Compare(event.Headers["nonce"], Nonce) != 0 {
-		return events.APIGatewayProxyResponse{
+func nonce(value string) *events.APIGatewayProxyResponse {
+	if Nonce != "" && strings.Compare(value, Nonce) != 0 {
+		return &events.APIGatewayProxyResponse{
 			StatusCode: 403,
 			Body:       "FORBIDDEN",
-		}, nil
+		}
 	}
+	return nil
+}
 
-	svc := sagemakerruntime.New(session.Must(session.NewSession()))
-	response, err := svc.InvokeEndpoint(&sagemakerruntime.InvokeEndpointInput{
+func invokeEndpoint(body string) *events.APIGatewayProxyResponse {
+	response, err := Sagemaker.InvokeEndpoint(&sagemakerruntime.InvokeEndpointInput{
 		EndpointName:     &EndpointName,
 		ContentType:      aws.String("application/json"),
-		Body:             []byte(event.Body),
+		Body:             []byte(body),
 		CustomAttributes: aws.String("accept_eula=true"),
 	})
 
 	if err != nil {
-		return events.APIGatewayProxyResponse{
+		return &events.APIGatewayProxyResponse{
 			StatusCode: 500,
 			Body:       err.Error(),
-		}, nil
+		}
 	}
 
-	return events.APIGatewayProxyResponse{
+	return &events.APIGatewayProxyResponse{
 		StatusCode: 200,
 		Body:       string(response.Body),
-	}, nil
+	}
+}
+
+func handler(_ context.Context, event events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+	if response := nonce(event.Headers["x-nonce"]); response != nil {
+		return *response, nil
+	}
+	return *invokeEndpoint(event.Body), nil
+}
+
+func main() {
+	lambda.Start(handler)
 }
