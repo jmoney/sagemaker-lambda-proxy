@@ -80,8 +80,15 @@ resource "random_uuid" "nonce" {
   }
 }
 
+resource "random_id" "value" {
+    keepers = {
+        version = 1
+    }
+    byte_length = 8
+}
+
 resource "aws_lambda_function" "sagemaker_lambda_proxy" {
-  function_name = "SagemakerLambdaProxy"
+  function_name = "SagemakerLambdaProxy${random_id.value.hex}"
   description = "Lambda that proxies the request to SageMaker"
   role = aws_iam_role.lambda.arn
   handler = "bootstrap"
