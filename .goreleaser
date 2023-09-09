@@ -49,7 +49,7 @@ dockers:
     use: docker
     dockerfile: 'Dockerfile'
     goos: linux
-    goarch: amd64
+    goarch: arm64
     ids:
       - sagemaker-lambda-proxy
 
@@ -64,6 +64,7 @@ dockers:
       - "--label=org.opencontainers.image.title={{.ProjectName}}"
       - "--label=org.opencontainers.image.revision={{.FullCommit}}"
       - "--label=org.opencontainers.image.version={{.Version}}"
+      - "--platform=linux/amd64"
 
     extra_files:
       - LICENSE
@@ -87,6 +88,7 @@ dockers:
       - "--label=org.opencontainers.image.title={{.ProjectName}}"
       - "--label=org.opencontainers.image.revision={{.FullCommit}}"
       - "--label=org.opencontainers.image.version={{.Version}}"
+      - "--platform=linux/arm64"
 
     extra_files:
       - LICENSE
