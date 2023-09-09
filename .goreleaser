@@ -2,7 +2,7 @@ project_name: sagemaker-lambda-proxy
 
 builds:
   -
-    id: sagemaker-lambda-proxy-linux-amd64
+    id: sagemaker-lambda-proxy
     main: ./cmd/lambda/proxy/main.go
 
     env:
@@ -11,15 +11,6 @@ builds:
       - linux
     goarch:
       - amd64
-  -
-    id: sagemaker-lambda-proxy-linux-arm64
-    main: ./cmd/lambda/proxy/main.go
-
-    env:
-      - CGO_ENABLED=0
-    goos:
-      - linux
-    goarch:
       - arm64
 
 archives:
