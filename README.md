@@ -1,6 +1,6 @@
 # Sagemaker Lambda Proxy
 
-A repo for the terraform required to standup a sagemaker proxy using lambdas in AWS
+A proxy that runs as a Lambda to sagemaker to testing certain sagemaker models.  This is a proof of concept and not meant for production use.
 
 ## Prerequisites
 
