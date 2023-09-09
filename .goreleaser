@@ -13,48 +13,41 @@ builds:
       - amd64
       - arm64
 
-archives:
-  - replacements:
-      linux: linux
-      amd64: x86_64
+# archives:
+#   - replacements:
+#       linux: linux
+#       amd64: x86_64
 
-checksum:
-  name_template: 'checksums.txt'
+# checksum:
+#   name_template: 'checksums.txt'
 
-snapshot:
-  name_template: "{{ incpatch .Version }}-next"
+# snapshot:
+#   name_template: "{{ incpatch .Version }}-next"
 
-changelog:
-  sort: asc
-  filters:
-    exclude:
-      - '^docs:'
-      - '^test:'
+# changelog:
+#   sort: asc
+#   filters:
+#     exclude:
+#       - '^docs:'
+#       - '^test:'
+
 dockers:
   -
-    # ID of the image, needed if you want to filter by it later on (e.g. on custom publishers).
-    id: sagemaker-lambda-proxy
-
-    # GOOS of the built binaries/packages that should be used.
+    id: sagemaker-lambda-proxy-linux-amd64
+    use: docker
+    dockerfile: 'Dockerfile'
     goos: linux
-
-    # GOARCH of the built binaries/packages that should be used.
     goarch: amd64
-
-    # GOAMD64 of the built binaries/packages that should be used.
     goamd64: 'v1'
-
-    # IDs to filter the binaries/packages.
     ids:
       - sagemaker-lambda-proxy
 
-    # Templates of the Docker image names.
     image_templates:
       - "ghcr.io/jmoney/sagemaker-lambda-proxy:latest"
       - "ghcr.io/jmoney/sagemaker-lambda-proxy:{{ .Tag }}"
       - "ghcr.io/jmoney/sagemaker-lambda-proxy:v{{ .Major }}"
 
-   build_flag_templates:
+    build_flag_templates:
       - "--pull"
       - "--label=org.opencontainers.image.created={{.Date}}"
       - "--label=org.opencontainers.image.title={{.ProjectName}}"
@@ -63,34 +56,22 @@ dockers:
 
     extra_files:
       - LICENSE
-
-    dockerfile: 'Dockerfile'
-
-    use: docker
   -
-    # ID of the image, needed if you want to filter by it later on (e.g. on custom publishers).
-    id: sagemaker-lambda-proxy
-
-    # GOOS of the built binaries/packages that should be used.
+    id: sagemaker-lambda-proxy-linux-arm64
+    use: docker
+    dockerfile: 'Dockerfile'
     goos: linux
-
-    # GOARCH of the built binaries/packages that should be used.
     goarch: arm64
-
-    # GOAMD64 of the built binaries/packages that should be used.
     goarm: '6'
-
-    # IDs to filter the binaries/packages.
     ids:
       - sagemaker-lambda-proxy
 
-    # Templates of the Docker image names.
     image_templates:
       - "ghcr.io/jmoney/sagemaker-lambda-proxy:latest"
       - "ghcr.io/jmoney/sagemaker-lambda-proxy:{{ .Tag }}"
       - "ghcr.io/jmoney/sagemaker-lambda-proxy:v{{ .Major }}"
 
-   build_flag_templates:
+    build_flag_templates:
       - "--pull"
       - "--label=org.opencontainers.image.created={{.Date}}"
       - "--label=org.opencontainers.image.title={{.ProjectName}}"
@@ -99,7 +80,3 @@ dockers:
 
     extra_files:
       - LICENSE
-
-    dockerfile: 'Dockerfile'
-
-    use: docker
