@@ -1,4 +1,4 @@
-# llama2-terraform
+# Sagemaker Lambda Proxy
 
 A repo for the terraform required to standup llama2 proxy in AWS
 
@@ -14,14 +14,14 @@ tfenv use
 ```bash
 make build
 terraform init
-AWS_PROFILE=<profile> terraform plan -out=plan.out -var endpoint-name=<endpoint-name>
+AWS_PROFILE=<profile> terraform plan -out=plan.out -var endpoint_name=<endpoint-name>
 AWS_PROFILE=<profile> terraform apply plan.out
 ```
 
 ## Destroy
 
 ```bash
-AWS_PROFILE=<profile> terraform destroy
+AWS_PROFILE=<profile> terraform destroy -var endpoint_name=<endpoint-name>
 ```
 
 ## Testing
