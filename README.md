@@ -1,6 +1,6 @@
 # Sagemaker Lambda Proxy
 
-A repo for the terraform required to standup llama2 proxy in AWS
+A repo for the terraform required to standup a sagemaker proxy using lambdas in AWS
 
 ## Prerequisites
 
