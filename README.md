@@ -31,3 +31,7 @@ curl --silent --http1.1 --request POST --header "Content-Type: application/json"
 ```
 
 There is a `data.json` file at the root of this repo with a question you can use.
+
+## Docker
+
+There is a dockerfile built to be used with lambda for the container image package type.  It has not been tested for local runs but in theory it should work.  Lambda does not allow images pulled from ghcr and only AWS ECR registries so the docker image would need to be mirrored from ghcr to ecr in some way.
