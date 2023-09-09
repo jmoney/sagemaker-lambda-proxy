@@ -31,7 +31,6 @@ changelog:
       - '^docs:'
       - '^test:'
 dockers:
-  # You can have multiple Docker images.
   -
     # ID of the image, needed if you want to filter by it later on (e.g. on custom publishers).
     id: sagemaker-lambda-proxy
@@ -68,8 +67,6 @@ dockers:
     dockerfile: 'Dockerfile'
 
     use: docker
-
-  # You can have multiple Docker images.
   -
     # ID of the image, needed if you want to filter by it later on (e.g. on custom publishers).
     id: sagemaker-lambda-proxy
