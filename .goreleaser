@@ -2,7 +2,7 @@ project_name: sagemaker-lambda-proxy
 
 builds:
   -
-    id: sagemaker-lambda-proxy
+    id: sagemaker-lambda-proxy-linux-amd64
     main: ./cmd/lambda/proxy/main.go
 
     env:
@@ -11,25 +11,37 @@ builds:
       - linux
     goarch:
       - amd64
+  -
+    id: sagemaker-lambda-proxy-linux-arm64
+    main: ./cmd/lambda/proxy/main.go
+
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+    goarch:
       - arm64
 
-# archives:
-#   - replacements:
-#       linux: linux
-#       amd64: x86_64
+archives:
+  -
+    id: sagemaker-lambda-proxy-archive
+    format: tar.gz
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    wrap_in_directory: true
 
-# checksum:
-#   name_template: 'checksums.txt'
 
-# snapshot:
-#   name_template: "{{ incpatch .Version }}-next"
+checksum:
+  name_template: 'checksums.txt'
 
-# changelog:
-#   sort: asc
-#   filters:
-#     exclude:
-#       - '^docs:'
-#       - '^test:'
+snapshot:
+  name_template: "{{ incpatch .Version }}-next"
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
 
 dockers:
   -
@@ -38,7 +50,6 @@ dockers:
     dockerfile: 'Dockerfile'
     goos: linux
     goarch: amd64
-    goamd64: 'v1'
     ids:
       - sagemaker-lambda-proxy
 
@@ -62,7 +73,6 @@ dockers:
     dockerfile: 'Dockerfile'
     goos: linux
     goarch: arm64
-    goarm: '6'
     ids:
       - sagemaker-lambda-proxy
 

@@ -38,3 +38,5 @@ bin/
 .terraform.lock.hcl
 *.out
 *.zip
+
+dist/

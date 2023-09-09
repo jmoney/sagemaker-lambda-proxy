@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"log"
 	"os"
 	"strings"
 
@@ -16,10 +17,11 @@ var (
 	EndpointName = os.Getenv("ENDPOINT_NAME")
 	Nonce        = os.Getenv("NONCE")
 	Sagemaker    = sagemakerruntime.New(session.Must(session.NewSession()))
+	ilog         = log.New(os.Stdout, "[INFO] ", log.Ldate|log.Ltime|log.Lshortfile)
 )
 
-func nonce(value string) *events.APIGatewayProxyResponse {
-	if Nonce != "" && strings.Compare(value, Nonce) != 0 {
+func checkNonce(value string) *events.APIGatewayProxyResponse {
+	if strings.Compare(value, Nonce) != 0 {
 		return &events.APIGatewayProxyResponse{
 			StatusCode: 403,
 			Body:       "FORBIDDEN",
@@ -28,10 +30,12 @@ func nonce(value string) *events.APIGatewayProxyResponse {
 	return nil
 }
 
-func invokeEndpoint(body string) *events.APIGatewayProxyResponse {
+func invokeEndpoint(mediaType, body string) *events.APIGatewayProxyResponse {
+	ilog.Printf("Invoking endpoint: %s\n", EndpointName)
+	ilog.Printf("Body: %s\n", body)
 	response, err := Sagemaker.InvokeEndpoint(&sagemakerruntime.InvokeEndpointInput{
 		EndpointName:     &EndpointName,
-		ContentType:      aws.String("application/json"),
+		ContentType:      aws.String(mediaType),
 		Body:             []byte(body),
 		CustomAttributes: aws.String("accept_eula=true"),
 	})
@@ -50,10 +54,20 @@ func invokeEndpoint(body string) *events.APIGatewayProxyResponse {
 }
 
 func handler(_ context.Context, event events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	if response := nonce(event.Headers["x-nonce"]); response != nil {
+	nonce := event.Headers["x-nonce"]
+	mediaType := event.Headers["content-type"]
+
+	if response := checkNonce(nonce); response != nil {
 		return *response, nil
 	}
-	return *invokeEndpoint(event.Body), nil
+
+	if strings.Compare(mediaType, "application/json") != 0 {
+		return events.APIGatewayProxyResponse{
+			StatusCode: 415,
+			Body:       "UNSUPPORTED_MEDIA_TYPE",
+		}, nil
+	}
+	return *invokeEndpoint(mediaType, event.Body), nil
 }
 
 func main() {

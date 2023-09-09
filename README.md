@@ -27,5 +27,7 @@ AWS_PROFILE=<profile> terraform destroy -var endpoint_name=<endpoint-name>
 ## Testing
 
 ```bash
-curl --silent --method POST --header "NONCE: $(terraform output -json | jq -r .nonce.value)" --data @data.json "$(terraform output -json | jq -r .url.value)"
+curl --silent --http1.1 --request POST --header "Content-Type: application/json" --header "X-NONCE: $(terraform output -json | jq -r .nonce.value)" "$(terraform output -json | jq -r .url.value)" -d @data.json | jq -r '.[].generation.content'
 ```
+
+There is a `data.json` file at the root of this repo with a question you can use.

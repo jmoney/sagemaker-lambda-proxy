@@ -1,0 +1,8 @@
+{
+    "inputs": [
+     [
+      {"role": "user", "content": "What is SageMaker?"}
+     ]
+    ],
+    "parameters": {"max_new_tokens":256, "top_p":0.9, "temperature":0.6}
+}
