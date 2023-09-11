@@ -114,9 +114,6 @@ brews:
     name: "sagemaker-endpoint-management@{{ .Tag }}"
     ids:
      - sagemaker-endpoint-management
-    goarch:
-      - amd64
-      - arm64
 
     repository:
       owner: jmoney
@@ -165,10 +162,6 @@ brews:
     name: "sagemaker-endpoint-management"
     ids:
      - sagemaker-endpoint-management
-
-    goarch:
-      - amd64
-      - arm64
 
     repository:
       owner: jmoney
