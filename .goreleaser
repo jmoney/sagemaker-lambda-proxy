@@ -35,6 +35,14 @@ archives:
     name_template: "sagemaker-lambda-proxy_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
     wrap_in_directory: true
     allow_different_binary_count: true
+  -
+    id: sagemaker-endpoint-management-archive
+    builds:
+      - sagemaker-endpoint-management
+    format: tar.gz
+    name_template: "sagemaker-endpoint-management_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    wrap_in_directory: true
+    allow_different_binary_count: true
 
 
 checksum:
@@ -104,7 +112,7 @@ brews:
   -
     name: "sagemaker-endpoint-management@{{ .Tag }}"
     ids:
-     - sagemaker-endpoint-management
+     - sagemaker-endpoint-management-archive
 
     repository:
       owner: jmoney
@@ -152,7 +160,7 @@ brews:
   -
     name: "sagemaker-endpoint-management"
     ids:
-     - sagemaker-endpoint-management
+     - sagemaker-endpoint-management-archive
 
     repository:
       owner: jmoney
