@@ -13,8 +13,6 @@ builds:
     goarch:
       - amd64
       - arm64
-    goarm:
-      - 7
   -
     id: sagemaker-endpoint-management
     main: ./cmd/cli/endpoint/main.go
@@ -28,8 +26,6 @@ builds:
     goarch:
       - amd64
       - arm64
-    goarm:
-      - 7
 
 archives:
   -
@@ -118,7 +114,9 @@ brews:
     name: "sagemaker-endpoint-management@{{ .Tag }}"
     ids:
      - sagemaker-endpoint-management
-    goarm: 7
+    goarch:
+      - amd64
+      - arm64
 
     repository:
       owner: jmoney
@@ -167,7 +165,10 @@ brews:
     name: "sagemaker-endpoint-management"
     ids:
      - sagemaker-endpoint-management
-    goarm: 7
+
+    goarch:
+      - amd64
+      - arm64
 
     repository:
       owner: jmoney
