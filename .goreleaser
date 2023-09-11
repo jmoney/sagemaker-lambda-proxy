@@ -14,7 +14,7 @@ builds:
       - arm64
   -
     id: sagemaker-endpoint-management
-    main: ./cmd/cli/sagemaker/main.go
+    main: ./cmd/cli/endpoint/main.go
 
     env:
       - CGO_ENABLED=0
@@ -104,6 +104,8 @@ dockers:
 brews:
   -
     name: "sagemaker-endpoint-management@{{ .Tag }}"
+    ids:
+     - sagemaker-endpoint-management
 
     repository:
       owner: jmoney
@@ -150,6 +152,8 @@ brews:
       bin.install "sagemaker-endpoint-management"
   -
     name: "sagemaker-endpoint-management"
+    ids:
+     - sagemaker-endpoint-management
 
     repository:
       owner: jmoney
