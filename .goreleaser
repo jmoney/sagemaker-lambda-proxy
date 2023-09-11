@@ -4,6 +4,7 @@ builds:
   -
     id: sagemaker-lambda-proxy
     main: ./cmd/lambda/proxy/main.go
+    binary: sagemaker-lambda-proxy
 
     env:
       - CGO_ENABLED=0
@@ -15,6 +16,7 @@ builds:
   -
     id: sagemaker-endpoint-management
     main: ./cmd/cli/endpoint/main.go
+    binary: sagemaker-endpoint-management
 
     env:
       - CGO_ENABLED=0
