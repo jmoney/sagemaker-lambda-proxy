@@ -118,8 +118,7 @@ brews:
     name: "sagemaker-endpoint-management@{{ .Tag }}"
     ids:
      - sagemaker-endpoint-management
-    goarm:
-      - 7
+    goarm: 7
 
     repository:
       owner: jmoney
@@ -168,8 +167,7 @@ brews:
     name: "sagemaker-endpoint-management"
     ids:
      - sagemaker-endpoint-management
-    goarm:
-      - 7
+    goarm: 7
 
     repository:
       owner: jmoney
