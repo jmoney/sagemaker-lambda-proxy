@@ -12,12 +12,29 @@ builds:
     goarch:
       - amd64
       - arm64
+  -
+    id: sagemaker-endpoint-management
+    main: ./cmd/cli/sagemaker/main.go
+
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+    goarch:
+      - amd64
+      - arm64
 
 archives:
   -
     id: sagemaker-lambda-proxy-archive
     format: tar.gz
     name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    wrap_in_directory: true
+  -
+    id: sagemaker-endpoint-management-archive
+    format: tar.gz
+    name_template: "sagemaker-endpoint-management_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
     wrap_in_directory: true
 
 
@@ -83,3 +100,97 @@ dockers:
 
     extra_files:
       - LICENSE
+
+brews:
+  -
+    name: "sagemaker-endpoint-management@{{ .Tag }}"
+
+    repository:
+      owner: jmoney
+      name: homebrew-aws
+
+      branch: main
+
+      token: "{{ .Env.GH_PAT }}"
+
+    # Git author used to commit to the repository.
+    # Defaults are shown.
+    commit_author:
+      name: goreleaserbot
+      email: release@jmoney.dev
+
+    commit_msg_template: "Brew formula update for sagemaker-endpoint-management version {{ .Tag }}"
+
+    folder: Formula
+
+    homepage: "https://jmoney.dev/sagemaker-endpoint-management"
+
+    description: "Management utility for AWS Sagemaker Endpoints"
+
+    # SPDX identifier of your app's license.
+    # Default is empty.
+    license: "Apache 2.0"
+
+    # Setting this will prevent goreleaser to actually try to commit the updated
+    # formula - instead, the formula file will be stored on the dist folder only,
+    # leaving the responsibility of publishing it to the user.
+    # If set to auto, the release will not be uploaded to the homebrew tap
+    # in case there is an indicator for prerelease in the tag e.g. v1.0.0-rc1
+    # Default is false.
+    #    skip_upload: true
+
+    # So you can `brew test` your formula.
+    # Default is empty.
+    test: |
+      system "#{bin}/sagemaker-endpoint-management -h"
+
+    # Custom install script for brew.
+    # Default is 'bin.install "program"'.
+    install: |
+      bin.install "sagemaker-endpoint-management"
+  -
+    name: "sagemaker-endpoint-management"
+
+    repository:
+      owner: jmoney
+      name: homebrew-aws
+
+      branch: main
+
+      token: "{{ .Env.GH_PATH }}"
+
+    # Git author used to commit to the repository.
+    # Defaults are shown.
+    commit_author:
+      name: goreleaserbot
+      email: release@jmoney.dev
+
+    commit_msg_template: "Brew formula update for sagemaker-endpoint-management version Latest"
+
+    folder: Formula
+
+    homepage: "https://jmoney.dev/sagemaker-endpoint-management"
+
+    description: "Management utility for AWS Sagemaker Endpoints"
+
+    # SPDX identifier of your app's license.
+    # Default is empty.
+    license: "Apache 2.0"
+
+    # Setting this will prevent goreleaser to actually try to commit the updated
+    # formula - instead, the formula file will be stored on the dist folder only,
+    # leaving the responsibility of publishing it to the user.
+    # If set to auto, the release will not be uploaded to the homebrew tap
+    # in case there is an indicator for prerelease in the tag e.g. v1.0.0-rc1
+    # Default is false.
+    #    skip_upload: true
+
+    # So you can `brew test` your formula.
+    # Default is empty.
+    test: |
+      system "#{bin}/sagemaker-endpoint-management -h"
+
+    # Custom install script for brew.
+    # Default is 'bin.install "program"'.
+    install: |
+      bin.install "sagemaker-endpoint-management"
