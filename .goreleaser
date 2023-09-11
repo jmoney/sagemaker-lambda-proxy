@@ -32,15 +32,7 @@ archives:
     builds:
       - sagemaker-lambda-proxy
     format: tar.gz
-    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
-    wrap_in_directory: true
-    allow_different_binary_count: true
-  -
-    id: sagemaker-endpoint-management-archive
-    builds:
-      - sagemaker-endpoint-management
-    format: tar.gz
-    name_template: "sagemaker-endpoint-management_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    name_template: "sagemaker-lambda-proxy_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
     wrap_in_directory: true
     allow_different_binary_count: true
 
