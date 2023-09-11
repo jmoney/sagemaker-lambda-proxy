@@ -13,6 +13,8 @@ builds:
     goarch:
       - amd64
       - arm64
+    goarm:
+      - 7
   -
     id: sagemaker-endpoint-management
     main: ./cmd/cli/endpoint/main.go
@@ -26,6 +28,8 @@ builds:
     goarch:
       - amd64
       - arm64
+    goarm:
+      - 7
 
 archives:
   -
