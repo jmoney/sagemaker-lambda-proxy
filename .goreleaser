@@ -36,7 +36,7 @@ archives:
     allow_different_binary_count: true
   -
     id: sagemaker-endpoint-management-archive
-    build:
+    builds:
       - sagemaker-endpoint-management
     format: tar.gz
     name_template: "sagemaker-endpoint-management_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
